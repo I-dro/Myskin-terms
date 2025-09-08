@@ -47,16 +47,47 @@ body{
 }
 .doc .doc-meta{color: var(--muted); margin:0 0 20px; font-size: 14px}
 
+/* Document layout */
+.doc-layout{
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 32px;
+  margin-top: 20px;
+}
+
+.doc-sidebar{
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+}
+
+.doc-content{
+  min-width: 0; /* Prevent grid overflow */
+}
+
+/* Tabs */
+.tabs{display:flex; gap:8px; margin: 12px 0 20px}
+.tab{
+  appearance:none;
+  background: var(--card);
+  border:1px solid var(--border);
+  color: var(--text);
+  padding:8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.tab:hover{box-shadow: 0 2px 8px rgba(0,0,0,0.06)}
+.tab.active{background: var(--accent); color: #fff; border-color: transparent}
+.doc-pane.hidden, .hidden{display:none}
+
 .toc{
   background: var(--card); 
   border: 1px solid var(--border); 
   border-radius: 12px; 
   padding:20px; 
-  margin: 20px 0 28px;
+  margin: 0 0 20px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  position: sticky;
-  top: 80px;
-  z-index: 50;
 }
 .toc h2{margin: 0 0 16px; font-size: 18px; color: var(--text)}
 .toc ol{margin:0; padding-left: 20px; counter-reset: toc-counter}
@@ -221,6 +252,28 @@ a:hover {
   
   .doc h1 {
     font-size: 28px;
+  }
+  
+  .doc-layout{
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .doc-sidebar{
+    position: static;
+    order: -1;
+  }
+  
+  .tabs{
+    flex-direction: row;
+    gap: 8px;
+  }
+  
+  .tab{
+    flex: 1;
+    text-align: center;
+    padding: 10px 12px;
+    font-size: 13px;
   }
   
   .toc{
