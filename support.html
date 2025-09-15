@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MySkin+ • Support</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="brand">
+          <div class="brand-mark"></div>
+          <span class="brand-name">MySkin+</span>
+        </div>
+        <nav class="nav">
+          <a href="/" class="nav-link">Home</a>
+          <a href="index.html" class="nav-link">Legal</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container doc">
+      <h1>Support</h1>
+      <p class="doc-meta">Get help with MySkin+</p>
+
+      <section class="section">
+        <h2>Contact Support</h2>
+        <p>
+          Need help with MySkin+? We're here to assist you! Use the form below to send us a message and we'll get back to you as soon as possible.
+        </p>
+        
+        <form id="support-form" class="support-form" action="https://formspree.io/f/xovnzjdz" method="POST">
+          <div class="form-group">
+            <label for="user-email">Your Email Address *</label>
+            <input type="email" id="user-email" name="_replyto" required placeholder="your.email@example.com">
+          </div>
+          
+          <div class="form-group">
+            <label for="subject">Subject *</label>
+            <input type="text" id="subject" name="subject" required placeholder="Brief description of your issue">
+          </div>
+          
+          <div class="form-group">
+            <label for="message">Message *</label>
+            <textarea id="message" name="message" required rows="6" placeholder="Please describe your issue or question in detail. Include any error messages, steps to reproduce the problem, and your device information if relevant."></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="category">Category</label>
+            <select id="category" name="category">
+              <option value="">Select a category (optional)</option>
+              <option value="Technical Issue">Technical Issue</option>
+              <option value="Account Problem">Account Problem</option>
+              <option value="Subscription/Billing">Subscription/Billing</option>
+              <option value="Feature Request">Feature Request</option>
+              <option value="Bug Report">Bug Report</option>
+              <option value="General Question">General Question</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          
+          <!-- Hidden fields for Formspree -->
+          <input type="hidden" name="_subject" id="hidden-subject">
+          <input type="hidden" name="_next" value="support.html?sent=true">
+          
+          <button type="submit" class="submit-btn">Send Support Request</button>
+        </form>
+        
+        <div class="support-info">
+          <h3>What to Include in Your Message</h3>
+          <ul>
+            <li><strong>Detailed description</strong> of the issue or question</li>
+            <li><strong>Steps to reproduce</strong> the problem (if applicable)</li>
+            <li><strong>Device information</strong>: iPhone/Android, iOS/Android version, app version</li>
+            <li><strong>Error messages</strong> (if any) - please copy the exact text</li>
+            <li><strong>When the issue occurred</strong> (date and time)</li>
+          </ul>
+          
+          <h3>Response Time</h3>
+          <p>We typically respond to support requests within 24-48 hours during business days. For urgent issues, please include "URGENT" in your subject line.</p>
+          
+          <h3>Privacy</h3>
+          <p>Your support request will be handled confidentially. We may use your information to improve our service, but we will never share your personal details with third parties without your consent.</p>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <div class="footer-inner">
+          <a href="index.html#privacy">Privacy</a>
+          <span>•</span>
+          <a href="index.html#terms">Terms</a>
+        </div>
+      </footer>
+    </main>
+
+    <button class="back-to-top" aria-label="Back to top" id="backToTop">↑</button>
+
+    <script src="script.js"></script>
+    <script>
+      (function(){
+        const form = document.getElementById('support-form');
+        const subjectPrefix = 'MySkin+ Support:';
+        
+        // Update hidden subject field when user types
+        function updateHiddenSubject() {
+          const subject = document.getElementById('subject').value;
+          const category = document.getElementById('category').value;
+          
+          let fullSubject = subjectPrefix;
+          if(category){
+            fullSubject += ' [' + category + ']';
+          }
+          if(subject){
+            fullSubject += ' ' + subject;
+          }
+          
+          document.getElementById('hidden-subject').value = fullSubject;
+        }
+        
+        // Update hidden subject when form fields change
+        document.getElementById('subject').addEventListener('input', updateHiddenSubject);
+        document.getElementById('category').addEventListener('change', updateHiddenSubject);
+        
+        // Handle form submission
+        form.addEventListener('submit', function(e){
+          // Update hidden subject one more time before submitting
+          updateHiddenSubject();
+          
+          // Show loading state
+          const submitBtn = document.querySelector('.submit-btn');
+          const originalText = submitBtn.textContent;
+          submitBtn.textContent = 'Sending...';
+          submitBtn.disabled = true;
+          
+          // Form will submit to Formspree automatically
+        });
+        
+        // Check if form was just submitted
+        const urlParams = new URLSearchParams(window.location.search);
+        if(urlParams.get('sent') === 'true'){
+          // Show success message
+          const formContainer = document.querySelector('.support-form');
+          const successMsg = document.createElement('div');
+          successMsg.className = 'success-message';
+          successMsg.innerHTML = `
+            <h3>✅ Message Sent Successfully!</h3>
+            <p>Thank you for contacting us. We'll get back to you within 24-48 hours.</p>
+          `;
+          formContainer.parentNode.insertBefore(successMsg, formContainer);
+          
+          // Clear form
+          form.reset();
+        }
+        
+        // Back to top button
+        const back = document.getElementById('backToTop');
+        window.addEventListener('scroll', function(){
+          if(window.scrollY > 400){ 
+            back.classList.add('visible'); 
+          } else { 
+            back.classList.remove('visible'); 
+          }
+        });
+        back.addEventListener('click', function(){ 
+          window.scrollTo({ top: 0, behavior: 'smooth' }); 
+        });
+      })();
+    </script>
+  </body>
+</html>
